@@ -1,0 +1,84 @@
+#!/bin/bash
+# Hannah Gulle
+# CSC 460 - Assignment 1 - Snake
+
+# To execute:
+# chmod u+x snake
+# snake
+
+# Needs to Display:
+# UserID  Full Name   Home Phone  TTY  What
+# 3 Command Line Options:
+#  ~ snake -> info about currently logged on users
+#  ~ snake all -> info about all users in our class
+#  ~ snake u1 u2 u3 ... -> info about the given userIDs
+
+# Proceed for Logged On Users
+if ( test $# = 0 ) then
+  users=`who | cut -d" " -f1 | sort -u`
+else
+
+  # Proceed for All Class Users
+  if ( test "$1" = "all" ) then
+    users=`grep GOBEARS /etc/passwd | cut -d":" -f1 | sort -u`
+
+  # Proceed for the Given Users
+  else
+    users=$*
+  fi
+fi
+
+# Print the Table Label Row
+echo -e USERID "\t\t" FULLNAME "\t\t" HOMEPHONE "\t" TTY "\t" WHAT
+
+# Iterate through the Users produced in the Command Line Arguments
+for user in $users
+do
+  fullName=`grep $user /etc/passwd | cut -d":" -f5 | cut -d"," -f1`
+  homePhone=`grep $user /etc/passwd | cut -d":" -f5 | cut -d"," -f3`
+
+  # Output "NONE GIVEN" if no home phone is given
+  if (test ${#homePhone} -eq 0) then
+    homePhone="NONE GIVEN"
+  fi
+
+  # Includes multiple TTY's for Users logged in multiple times
+  ttyLong=`who | grep $user | tr -s " " | cut -d" " -f2`
+  # Includes a single TTY even for Users logged in multiple times
+  tty=$(echo $ttyLong | cut -d" " -f1)
+
+  what=`w | grep $user | cut -c65-`
+
+  # For users not logged on (Command "all" or Command specific)
+  if ( test "$tty" = "" ) then
+    tty="NOT ON"
+    what="-"
+  fi
+
+  # Does not output the root user
+  if (test "$user" != "root" ) then
+
+    # Eliminates inconsistent output for short userIDs
+    if ( test ${#user} -le 7 ) then
+      outName=$(echo $user::$fullName)
+    else
+      outName=$(echo $user:$fullName)
+    fi
+
+    # Eliminates inconsistent output for long fullNames
+    if ( test ${#fullName} -ge 16 ) then
+      out=$(echo $outName:$homePhone:$tty:$what)
+    else
+      # and also for short fullNames
+      if ( test ${#fullName} -lt 7 ) then
+          out=$(echo $outName:::$homePhone:$tty:$what)
+      else
+          out=$(echo $outName::$homePhone:$tty:$what)
+      fi
+    fi
+
+    # Outputted as a table using the COLUMN command
+    printf "$out" | column -t -s":" -o$'\t'
+
+  fi # End test that user is not root
+done
