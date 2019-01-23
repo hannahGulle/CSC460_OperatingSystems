@@ -1,0 +1,79 @@
+#!/bin/bash
+# Hannah Gulle
+# CSC 460
+# Peach Shell - Homework 2
+# 01/22/2019
+
+cmd='n'
+while (test "$cmd" != "peeloff")
+do
+  echo -n "Peaches>"
+  read cmd
+
+  arg1=$(echo $cmd | cut -d" " -f1)
+  arg2=$(echo $cmd | cut -d" " -f2)
+
+  if (test "$arg1" = "peachcobbler") then
+    if (test "$arg2" != "") then
+      less $arg2
+    fi
+  fi
+
+  if (test "$arg1" = "peachpal") then
+    if (test "$arg2" != "") then
+      out=`grep $arg2 /etc/passwd | cut -d":" -f5 | cut -d"," -f3`
+      echo $out
+    fi
+  fi
+
+  if (test "$arg1" = "peachers") then
+    out=`who | cut -d" " -f1 | sort -u`
+    echo $out
+  fi
+
+  if (test "$arg1" = "cream") then
+   out=`ls`
+   for file in $out
+   do
+     echo $file
+   done
+  fi
+
+  if (test "$arg1" = "peachfuzz") then
+    echo peachcobbler peachpal peachers cream peachy peachpie snake peeloff
+  fi
+
+  if (test "$arg1" = "peachsmash") then
+    bash -l
+  fi
+
+  if (test "$arg1" = "peachy") then
+    list=`grep GOBEARS /etc/passwd | cut -d"_" -f1`
+    count=0
+    for user in $list
+    do
+      count=$((count+1))
+    done
+    echo There are $count students in CSC460
+  fi
+
+  if (test "$arg1" = "peachpie") then
+    if (test "$arg2" != "") then
+      vim $arg2
+    fi
+  fi
+
+# TODO
+  if (test "$arg1" = "snake") then
+    if (test $#arg2 = 0) then
+      source snake
+    fi
+
+    if (test "$arg2" = "all") then
+      snake all
+    else
+      snake "$arg2"
+    fi
+  fi
+
+done
