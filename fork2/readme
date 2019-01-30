@@ -1,0 +1,8 @@
+To Compile:
+cc iceClimbers.c
+
+To Run:
+a.out #
+
+Requires single integer input for "a.out N" where N must be within the valid
+range [1,26].
