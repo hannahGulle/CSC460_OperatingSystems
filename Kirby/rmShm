@@ -1,0 +1,9 @@
+mids=`ipcs | grep gulle_hc | cut -d" " -f2`
+
+for id in $mids
+do
+  ipcrm -m $id
+  ipcrm -s $id
+done
+
+rm syncFile
