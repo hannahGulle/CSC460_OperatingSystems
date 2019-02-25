@@ -1,0 +1,11 @@
+To Execute rmShm:
+chmod u+x rmShm
+rmShm
+
+To Compile and Run bank.c:
+cc bank.c -lm
+    a.out
+    a.out #
+        # in [1,100]
+    a.out die
+    a.out balance
