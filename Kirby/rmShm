@@ -5,5 +5,3 @@ do
   ipcrm -m $id
   ipcrm -s $id
 done
-
-rm syncFile
