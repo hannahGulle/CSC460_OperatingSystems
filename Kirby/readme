@@ -1,0 +1,7 @@
+To Execute rmShm:
+chmod u+x rmShm
+rmShm
+
+To Compile and Run Kirby.c:
+cc kirby.c
+a.out
