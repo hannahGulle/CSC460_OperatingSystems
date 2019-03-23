@@ -1,0 +1,9 @@
+# change "gulle_hc" to the executing user name
+
+mids=`ipcs | grep gulle_hc | cut -d" " -f2`
+
+for id in $mids
+do
+  ipcrm -m $id
+  ipcrm -s $id
+done
