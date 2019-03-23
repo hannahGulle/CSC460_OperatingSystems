@@ -1,0 +1,12 @@
+To compile:
+gcc diner.c
+OR
+cc diner.c
+
+To run:
+a.out
+
+If errors occur, compile and run the "rmshm" script to delete the shared
+memory resources:
+chmod u+x rmshm
+rmshm
